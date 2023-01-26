@@ -4,7 +4,6 @@ import Event from "../pages/Event";
 import Login from "../pages/Login";
 import { privateRoutes, publicRoutes } from "../router";
 import { useTypedSelector } from "./../hooks";
-import auth from "./../store/reducers/auth/index";
 
 const AppRouter: React.FC = () => {
   const { isAuth } = useTypedSelector((state) => state.auth);

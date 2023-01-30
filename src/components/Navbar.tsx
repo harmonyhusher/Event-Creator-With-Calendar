@@ -3,19 +3,22 @@ import { Layout, Menu, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import { RouteNames } from "../router";
 import { useTypedSelector } from "../hooks";
+import { useDispatch } from 'react-redux';
+import { AuthActionCreators } from './../store/reducers/auth/action-creators';
+import { useActions } from './../hooks/useActions';
 
 const Navbar: React.FC = () => {
-  const { isAuth } = useTypedSelector((state) => state.auth);
+  const { isAuth, user } = useTypedSelector((state) => state.auth);
   const router = useNavigate();
+  const {logout} = useActions() //custom hook
   return (
     <Layout.Header>
       <Row justify="end">
         {isAuth ? (
           <Menu theme="dark" mode="horizontal" selectable={false}>
-            <div>User</div>
-            <Menu.Item key={1} onClick={() => alert("Вышел")}>
-              {" "}
-              Выйти{" "}
+            <div>{user.username}</div>
+            <Menu.Item key={1} onClick={() => logout()}>
+              Выйти
             </Menu.Item>
           </Menu>
         ) : (

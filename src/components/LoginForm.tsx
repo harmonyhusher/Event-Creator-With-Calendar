@@ -4,16 +4,17 @@ import { AuthActionCreators } from "../store/reducers/auth/action-creators";
 import { rules } from "../utils/rulse";
 import { useTypedSelector } from './../hooks';
 import {useState} from "react"
+import { useActions } from './../hooks/useActions';
 
 const LoginForm: React.FC = () => {
 
-    const dispatch = useDispatch()
     const {error, isLoading} = useTypedSelector(state => state.auth)
+    const {login} = useActions() //custom hook
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
     const submit = () => {
-      dispatch(AuthActionCreators.login(username, password))
+      login(username, password)
     }
 
   return (

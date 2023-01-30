@@ -1,4 +1,3 @@
-import axios from "axios";
 import { AppDispatch } from "../..";
 import { IUser } from "./../../../models/User";
 import {
@@ -8,6 +7,7 @@ import {
   SetErrorAction,
   SetUserAction,
 } from "./types";
+import UserService from './../../../api/UserService';
 
 export const AuthActionCreators = {
   setUser: (user: IUser): SetUserAction => ({
@@ -31,7 +31,7 @@ export const AuthActionCreators = {
       try {
         dispatch(AuthActionCreators.setIsLoading(true));
         setTimeout(async () => {
-          const response = await axios.get<IUser[]>("./users.json");
+          const response = await UserService.getUsers()
           const User = response.data.find(
             (user) => user.username === username && user.password === password
           );
@@ -51,6 +51,10 @@ export const AuthActionCreators = {
     },
   logout: () => async (dispatch: AppDispatch) => {
     try {
+      localStorage.removeItem('auth')
+      localStorage.removeItem('username')
+      dispatch(AuthActionCreators.setUser({} as IUser))
+      dispatch(AuthActionCreators.setIsAuth(false))
     } catch (error) {
       dispatch(AuthActionCreators.setError("Ошибка!"));
     }
